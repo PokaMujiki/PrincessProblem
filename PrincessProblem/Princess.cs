@@ -2,35 +2,35 @@ namespace PrincessProblem;
 
 public class Princess
 {
-    private List<String> _rejectedContendersNames;
-    private Hall _hall;
+    private readonly List<string> _rejectedContendersNames;
+    private readonly Hall _hall;
     public string? HusbandName { get; private set; }
+    private const int ContendersNumber = 100;
 
     public Princess(Hall hall)
     {
-        _rejectedContendersNames = new List<String>();
+        _rejectedContendersNames = new List<string>();
         _hall = hall;
     }
 
     public void FindHusband()
     {
-        for (int i = 0; i < 100; i++)
+        for (var i = 0; i < ContendersNumber; i++)
         {
             _hall.CallNextContender();
             var currentContenderName = _hall.GetCurrentContenderName();
 
-            int currentBetterThan = 0;
-
-            foreach (var rejectedContenderName in _rejectedContendersNames)
+            if (_rejectedContendersNames.Count <= ContendersNumber / 2)
             {
-                var bestName = _hall.Friend.ChooseBest(rejectedContenderName, currentContenderName);
-                if (bestName == currentContenderName)
-                {
-                    currentBetterThan++;
-                }
+                _rejectedContendersNames.Add(currentContenderName);
+                continue;
             }
 
-            if (currentBetterThan == _rejectedContendersNames.Count - 1 && _rejectedContendersNames.Count > 36)
+            var currentIsBetterThan = _rejectedContendersNames
+                .Select(name => _hall.Friend.ChooseBest(name, currentContenderName))
+                .Count(bestName => bestName == currentContenderName);
+
+            if (currentIsBetterThan == _rejectedContendersNames.Count - 2)
             {
                 HusbandName = currentContenderName;
                 return;

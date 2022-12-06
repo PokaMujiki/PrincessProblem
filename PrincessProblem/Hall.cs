@@ -1,11 +1,13 @@
+using PrincessProblem.Exceptions;
+
 namespace PrincessProblem;
 
 public class Hall
 {
-    private List<Contender> _contenders;
+    private readonly List<Contender> _contenders;
     private int _currentContenderIndex;
 
-    public Friend Friend;
+    public readonly Friend Friend;
 
     public Hall()
     {
@@ -15,8 +17,18 @@ public class Hall
         Friend = new Friend(_contenders);
     }
 
-    public String GetCurrentContenderName()
+    public string GetCurrentContenderName()
     {
+        if (_currentContenderIndex == -1)
+        {
+            throw new NoContenderException("Call contender first before trying to get his name");
+        }
+
+        if (_currentContenderIndex >= _contenders.Count)
+        {
+            throw new NoContenderException("No more contenders in hall");
+        }
+        
         return _contenders[_currentContenderIndex].Name;
     }
 
@@ -33,17 +45,13 @@ public class Hall
         {
             return 10;
         }
-        
-        switch (husband.Rank)
+
+        return husband.Rank switch
         {
-            case 1:
-                return 20;
-            case 3:
-                return 50;
-            case 5:
-                return 100;
-            default:
-                return 0;
-        }
+            1 => 20,
+            3 => 50,
+            5 => 100,
+            _ => 0
+        };
     }
 }

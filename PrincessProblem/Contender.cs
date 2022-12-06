@@ -2,10 +2,10 @@ namespace PrincessProblem;
 
 public class Contender
 {
-    public String Name { get; }
+    public string Name { get; }
     public int Rank { get; }
     
-    public Contender(String name, int rank)
+    public Contender(string name, int rank)
     {
         Name = name;
         Rank = rank;
