@@ -5,7 +5,7 @@ public static class Utils
     public static List<T> Shuffle<T>(this List<T> list)
     {
         int seed = (int)DateTime.Now.Ticks;
-        Console.WriteLine($"Seed for shuffle is: {@seed}");
+        Console.WriteLine($"Seed for shuffle is: {seed}");
         Random random = new Random(seed);
         int n = list.Count;
         
