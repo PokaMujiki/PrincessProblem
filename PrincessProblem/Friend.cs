@@ -2,7 +2,7 @@ namespace PrincessProblem;
 
 public class Friend
 {
-    private Dictionary<string, int> _contenders;
+    private readonly Dictionary<string, int> _contenders;
     
     public Friend(List<Contender> contenders)
     {

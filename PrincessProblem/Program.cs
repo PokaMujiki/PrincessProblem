@@ -8,7 +8,7 @@
             var princess = new Princess(hall);
             princess.FindHusband();
             
-            Console.WriteLine(hall.GetPrincessHappiness(princess.HusbandName));
+            Console.WriteLine($"Princess happiness: {@hall.GetPrincessHappiness(princess.HusbandName)}");
         }
     }
 }
