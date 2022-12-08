@@ -1,19 +1,40 @@
+using Microsoft.Extensions.Hosting;
+
 namespace PrincessProblem;
 
-public class Princess
+public class Princess : IHostedService
 {
-    private readonly List<string> _rejectedContendersNames;
+    private readonly List<string> _rejectedContendersNames = new();
     private readonly Hall _hall;
-    public string? HusbandName { get; private set; }
+    private string? HusbandName { get; set; }
     private const int ContendersNumber = 100;
+    private readonly IHostApplicationLifetime _applicationLifetime;
 
-    public Princess(Hall hall)
+    public Princess(IHostApplicationLifetime applicationLifetime, Hall hall)
     {
-        _rejectedContendersNames = new List<string>();
         _hall = hall;
+        _applicationLifetime = applicationLifetime;
+    }
+    
+    public Task StartAsync(CancellationToken cancellationToken)
+    {
+        Task.Run(() =>
+        {
+            FindHusband();
+            Console.WriteLine($"Princess happiness: {_hall.GetPrincessHappiness(HusbandName)}");
+
+            _applicationLifetime.StopApplication();
+        }, cancellationToken);
+
+        return Task.CompletedTask;
     }
 
-    public void FindHusband()
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        return Task.CompletedTask;
+    }
+
+    private void FindHusband()
     {
         for (var i = 0; i < ContendersNumber; i++)
         {

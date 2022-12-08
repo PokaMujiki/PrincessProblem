@@ -1,24 +1,24 @@
-﻿namespace PrincessProblem
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+namespace PrincessProblem;
+
+public static class Program
 {
-    public static class Program
+    public static void Main(string[] args)
     {
-        private const int ExperimentsAmount = 1000;
+        CreateHostBuilder(args).Build().Run();
+    }
 
-        public static void Main(string[] args)
-        {
-            var acc = 0;
-            for (var i = 0; i < ExperimentsAmount; i++)
+    private static IHostBuilder CreateHostBuilder(string[] args)
+    {
+        return Host.CreateDefaultBuilder(args)
+            .ConfigureServices((_, services) =>
             {
-                var hall = new Hall();
-                var princess = new Princess(hall);
-                princess.FindHusband();
-
-                Console.WriteLine($"Princess happiness: {hall.GetPrincessHappiness(princess.HusbandName)}");
-                acc += hall.GetPrincessHappiness(princess.HusbandName);
-            }
-
-            var mean = (double)acc / ExperimentsAmount;
-            Console.WriteLine($"Mean happiness: {mean}");
-        }
+                services.AddHostedService<Princess>();
+                services.AddScoped<Hall>();
+                services.AddScoped<Friend>();
+                services.AddScoped<ContendersGenerator>();
+            });
     }
 }

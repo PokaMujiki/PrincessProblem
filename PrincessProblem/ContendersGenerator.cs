@@ -1,6 +1,6 @@
 namespace PrincessProblem;
 
-public static class ContendersGenerator
+public class ContendersGenerator
 {
     public static List<Contender> Generate()
     {
