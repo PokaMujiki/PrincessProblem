@@ -1,4 +1,5 @@
 using PrincessProblem.Exceptions;
+using PrincessProblem.Utils;
 
 namespace PrincessProblem;
 
@@ -9,9 +10,10 @@ public class Hall
 
     public readonly Friend Friend;
 
-    public Hall()
+    public Hall(List<Contender>? shuffledContendersList = null)
     {
-        _contenders = ContendersGenerator.Generate().Shuffle();
+        shuffledContendersList ??= ContendersGenerator.Generate().Shuffle();
+        _contenders = shuffledContendersList;
         _currentContenderIndex = -1;
 
         Friend = new Friend(_contenders);
