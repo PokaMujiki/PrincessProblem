@@ -28,8 +28,11 @@ public class Hall
         {
             throw new NoContenderException("No more contenders in hall");
         }
+
+        var currentContenderName = _contenders[_currentContenderIndex].Name;
+        Friend.MarkAsFamiliar(currentContenderName);
         
-        return _contenders[_currentContenderIndex].Name;
+        return currentContenderName;
     }
 
     public void CallNextContender()
