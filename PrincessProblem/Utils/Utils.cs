@@ -1,4 +1,4 @@
-namespace PrincessProblem;
+namespace PrincessProblem.Utils;
 
 public static class Utils
 {
