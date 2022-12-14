@@ -1,38 +1,54 @@
+using PrincessProblem.Utils;
+
 namespace PrincessProblem;
 
 public class Princess
 {
-    private readonly List<string> _rejectedContendersNames = new();
     private readonly Hall _hall;
-    public string? HusbandName { get; private set; }
+    private readonly Friend _friend;
+    
+    private readonly List<Contender> _rejectedContenders = new();
+    private Contender? _husband;
 
-    public Princess(Hall hall)
+    public Princess(Friend friend, Hall hall)
     {
+        _friend = friend;
         _hall = hall;
     }
     public void FindHusband()
     {
-        for (var i = 0; i < Utils.Constants.ContendersNumber; i++)
+        for (var i = 0; i < Constants.ContendersNumber; i++)
         {
-            _hall.CallNextContender();
-            var currentContenderName = _hall.GetCurrentContenderName();
+            var currentContender = _hall.GetNextContender();
 
-            if (_rejectedContendersNames.Count < Utils.Constants.ContendersNumber / 2)
+            if (_rejectedContenders.Count < Constants.ContendersNumber / 2)
             {
-                _rejectedContendersNames.Add(currentContenderName);
+                _rejectedContenders.Add(currentContender);
                 continue;
             }
 
             var currentIsWorseThan =
-                _rejectedContendersNames.Count(name => name == _hall.Friend.ChooseBest(currentContenderName, name));
+                _rejectedContenders.Count(contender => contender == _friend.ChooseBest(currentContender, contender));
 
             if (currentIsWorseThan == 2)
             {
-                HusbandName = currentContenderName;
+                _husband = currentContender;
                 return;
             }
             
-            _rejectedContendersNames.Add(currentContenderName);
+            _rejectedContenders.Add(currentContender);
         }
+    }
+    
+    public int GetHappiness()
+    {
+        return _husband?.Rank switch
+        {
+            Constants.BestContenderRank => Constants.BestMarriageHappiness,
+            Constants.MediumContenderRank => Constants.MediumMarriageHappiness,
+            Constants.BadContenderRank => Constants.BadMarriageHappiness,
+            null => Constants.NoMarriageHappiness,
+            _ => Constants.WorstMarriageHappiness
+        };
     }
 }

@@ -9,12 +9,13 @@
             var acc = 0;
             for (var i = 0; i < ExperimentsAmount; i++)
             {
-                var hall = new Hall();
-                var princess = new Princess(hall);
+                var friend = new Friend();
+                var hall = new Hall(friend);
+                var princess = new Princess(friend, hall);
                 princess.FindHusband();
 
-                Console.WriteLine($"Princess happiness: {hall.GetPrincessHappiness(princess.HusbandName)}");
-                acc += hall.GetPrincessHappiness(princess.HusbandName);
+                Console.WriteLine($"Princess happiness: {princess.GetHappiness()}");
+                acc += princess.GetHappiness();
             }
 
             var mean = (double)acc / ExperimentsAmount;
