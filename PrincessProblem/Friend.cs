@@ -4,35 +4,26 @@ namespace PrincessProblem;
 
 public class Friend
 {
-    private readonly Dictionary<string, int> _contenders = new();
-    private readonly HashSet<string> _familiarContendersNames = new();
+    private readonly Dictionary<string, int> _familiarContenders = new();
 
-    public Friend(List<Contender> contenders)
+    public void MarkAsFamiliar(Contender contender)
     {
-        foreach (var contender in contenders)
-        {
-            _contenders.Add(contender.Name, contender.Rank);
-        }
+        _familiarContenders.Add(contender.Name, contender.Rank);
     }
 
-    public void MarkAsFamiliar(string contenderName)
+    public Contender ChooseBest(Contender firstContender, Contender secondContender)
     {
-        _familiarContendersNames.Add(contenderName);
-    }
-
-    public string ChooseBest(string firstContenderName, string secondContenderName)
-    {
-        if (!_familiarContendersNames.Contains(firstContenderName) ||
-            !_familiarContendersNames.Contains(secondContenderName))
+        if (!_familiarContenders.ContainsKey(firstContender.Name) ||
+            !_familiarContenders.ContainsKey(secondContender.Name))
         {
             throw new UnfamiliarContender();
         }
         
-        if (_contenders[firstContenderName] < _contenders[secondContenderName])
+        if (_familiarContenders[firstContender.Name] < _familiarContenders[secondContender.Name])
         {
-            return firstContenderName;
+            return firstContender;
         }
 
-        return secondContenderName;
+        return secondContender;
     }
 }
