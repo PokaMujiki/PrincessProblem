@@ -3,6 +3,8 @@ namespace PrincessProblem.Utils;
 public static class Constants
 {
     public const int ContendersNumber = 100;
+
+    public const int SkipFirstContendersNumber = ContendersNumber / 2;
     
     public const int BestContenderRank = 5;
     public const int MediumContenderRank = 3;

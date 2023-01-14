@@ -44,7 +44,7 @@ public class Princess : IHostedService
         {
             var currentContender = _hall.GetNextContender();
 
-            if (_rejectedContenders.Count < Constants.ContendersNumber / 2)
+            if (_rejectedContenders.Count < Constants.SkipFirstContendersNumber)
             {
                 _rejectedContenders.Add(currentContender);
                 continue;
