@@ -11,19 +11,15 @@ public class HallTests
     public void HallCallingNextContenderIsCorrect()
     {
         var shuffledContenders = ContendersGenerator.Generate().Shuffle();
-        var hall = new Hall(shuffledContenders);
+        var friend = new Friend();
+        var hall = new Hall(friend, shuffledContenders);
         
-        // no contenders call
-        Assert.ThrowsException<NoContenderException>(() => hall.GetCurrentContenderName());
-
         foreach (var contender in shuffledContenders)
         {
-            hall.CallNextContender();
-            Assert.AreEqual(contender.Name, hall.GetCurrentContenderName());   
+            Assert.AreEqual(contender, hall.GetNextContender());   
         }
         
         // no more contenders
-        hall.CallNextContender();
-        Assert.ThrowsException<NoContenderException>(() => hall.GetCurrentContenderName());
+        Assert.ThrowsException<NoContenderException>(() => hall.GetNextContender());
     }
 }
