@@ -16,8 +16,8 @@ public static class Program
             .ConfigureServices((_, services) =>
             {
                 services.AddHostedService<Princess>();
-                services.AddScoped<Hall>();
                 services.AddScoped<Friend>();
+                services.AddScoped<Hall>();
                 services.AddScoped<ContendersGenerator>();
             });
     }
