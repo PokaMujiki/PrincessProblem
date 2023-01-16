@@ -2,8 +2,9 @@ namespace PrincessProblem;
 
 public class Contender
 {
-    public string Name { get; }
-    public int Rank { get; }
+    public int Id { get; set; }
+    public string Name { get; init; }
+    public int Rank { get; init; }
     
     public Contender(string name, int rank)
     {
